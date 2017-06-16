@@ -2,7 +2,7 @@ package interretis.financial_engineering;
 
 import java.math.BigDecimal;
 
-import static interretis.financial_engineering.NumericUtilities.divide;
+import static interretis.financial_engineering.utilities.NumericUtilities.divide;
 import static java.math.BigDecimal.ONE;
 
 public final class ZeroCouponBond {
