@@ -4,8 +4,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 
-import static interretis.financial_engineering.Interest.simpleInterest;
-import static interretis.financial_engineering.Interest.worthAtMaturityAtSimpleInterest;
+import static interretis.financial_engineering.Interest.*;
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
@@ -22,11 +21,27 @@ public final class PricingASimpleBond {
         // when
         final BigDecimal interest = simpleInterest(investment, periods, ratePerPeriod);
         // then
-        assertThat(interest, is(closeTo(amount("40"), DEFAULT_PRECISION)));
+        assertThat(interest, is(closeTo(amount("40"), EPSILON)));
         // when
-        final BigDecimal worthAtMaturity = worthAtMaturityAtSimpleInterest(investment, periods, ratePerPeriod);
+        final BigDecimal worth = worthAtMaturityAtSimpleInterest(investment, periods, ratePerPeriod);
         // then
-        assertThat(worthAtMaturity, is(closeTo(amount("140"), DEFAULT_PRECISION)));
+        assertThat(worth, is(closeTo(amount("140"), EPSILON)));
+    }
+
+    @Test
+    public void compound_interest() {
+        // given
+        final BigDecimal investment = amount(100);
+        final int periods = 4;
+        final BigDecimal ratePerPeriod = percent("10");
+        // when
+        final BigDecimal worth = worthAtMaturityAtCompoundInterest(investment, periods, ratePerPeriod);
+        // then
+        assertThat(worth, is(closeTo(amount("146.41"), DEFAULT_PRECISION)));
+        // when
+        final BigDecimal interest = compoundInterest(investment, periods, ratePerPeriod);
+        // then
+        assertThat(interest, is(closeTo(amount("46.41"), DEFAULT_PRECISION)));
     }
 
     @Test

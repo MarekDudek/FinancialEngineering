@@ -32,5 +32,6 @@ public final class NumericUtilities {
         return nominator.divide(denominator, DEFAULT_MODE);
     }
 
-    public static final BigDecimal DEFAULT_PRECISION = number("0.01");
+    public static final BigDecimal EPSILON = number("0.000001");
+    public static final BigDecimal DEFAULT_PRECISION = percent("1");
 }
