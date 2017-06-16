@@ -14,6 +14,10 @@ public final class NumericUtilities {
         return new BigDecimal(number).setScale(DEFAULT_SCALE, DEFAULT_MODE);
     }
 
+    public static BigDecimal number(final int number) {
+        return new BigDecimal(number);
+    }
+
     public static BigDecimal amount(final String number) {
         return number(number);
     }

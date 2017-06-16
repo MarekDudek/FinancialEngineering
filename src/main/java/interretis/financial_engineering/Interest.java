@@ -2,6 +2,8 @@ package interretis.financial_engineering;
 
 import java.math.BigDecimal;
 
+import static interretis.financial_engineering.utilities.NumericUtilities.divide;
+import static interretis.financial_engineering.utilities.NumericUtilities.number;
 import static java.math.BigDecimal.ONE;
 
 final class Interest {
@@ -29,5 +31,11 @@ final class Interest {
     private static BigDecimal compoundRate(final int periods, final BigDecimal ratePerPeriod) {
         final BigDecimal periodRate = ONE.add(ratePerPeriod);
         return periodRate.pow(periods);
+    }
+
+    static BigDecimal worthAtMaturityAtCompoundInterest(final BigDecimal investment, final int years, final BigDecimal annualRate, final int periods) {
+        final BigDecimal rate = divide(annualRate, number(periods));
+        final BigDecimal compoundRate = (ONE.add(rate)).pow(years * periods);
+        return investment.multiply(compoundRate);
     }
 }
