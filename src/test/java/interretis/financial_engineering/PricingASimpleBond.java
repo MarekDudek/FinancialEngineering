@@ -17,7 +17,7 @@ public final class PricingASimpleBond {
         // given
         final BigDecimal investment = amount(100);
         final int periods = 4;
-        final BigDecimal ratePerPeriod = percent("10");
+        final BigDecimal ratePerPeriod = percent(10);
         // when
         final BigDecimal interest = simpleInterest(investment, periods, ratePerPeriod);
         // then
@@ -33,7 +33,7 @@ public final class PricingASimpleBond {
         // given
         final BigDecimal investment = amount(100);
         final int periods = 4;
-        final BigDecimal ratePerPeriod = percent("10");
+        final BigDecimal ratePerPeriod = percent(10);
         // when
         final BigDecimal worth = worthAtMaturityAtCompoundInterest(investment, periods, ratePerPeriod);
         // then
@@ -50,18 +50,22 @@ public final class PricingASimpleBond {
         final BigDecimal investment = amount(100);
         final int years = 4;
         final int compoundingPeriodsPerYear = 1;
-        final BigDecimal annualRate = percent("10");
+        final BigDecimal annualRate = percent(10);
         // when
         final BigDecimal worth = worthAtMaturityAtCompoundInterest(investment, years, annualRate, compoundingPeriodsPerYear);
         // then
         assertThat(worth, is(closeTo(amount("146.41"), DEFAULT_PRECISION)));
+        // when
+        final BigDecimal interest = compoundInterest(investment, years, annualRate, compoundingPeriodsPerYear);
+        // then
+        assertThat(interest, is(closeTo(amount("46.41"), DEFAULT_PRECISION)));
     }
 
     @Test
     public void pricing_a_simple_bond_for_one_year() {
         // given
-        final BigDecimal A = amount("70.00"); // pay in 1 year
-        final BigDecimal r = percent("5");
+        final BigDecimal A = amount(70); // pay in 1 year
+        final BigDecimal r = percent(5);
         final ZeroCouponBond bond = new ZeroCouponBond(A);
         // when
         final BigDecimal price = bond.price(r);
