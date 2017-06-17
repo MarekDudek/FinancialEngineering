@@ -12,28 +12,28 @@ final class Interest {
 
     // Simple interest
 
-    static BigDecimal worthAtMaturityAtSimpleInterest(final BigDecimal investment, final int periods, final BigDecimal ratePerPeriod) {
-        final BigDecimal interest = simpleInterest(investment, periods, ratePerPeriod);
-        return investment.add(interest);
+    static BigDecimal worthAtMaturityAtSimpleInterest(final BigDecimal principal, final int periods, final BigDecimal ratePerPeriod) {
+        final BigDecimal interest = simpleInterest(principal, periods, ratePerPeriod);
+        return principal.add(interest);
     }
 
-    static BigDecimal simpleInterest(final BigDecimal investment, final int periods, final BigDecimal ratePerPeriod) {
+    static BigDecimal simpleInterest(final BigDecimal principal, final int periods, final BigDecimal ratePerPeriod) {
         final BigDecimal rate = ratePerPeriod.multiply(number(periods));
-        return investment.multiply(rate);
+        return principal.multiply(rate);
     }
 
     // Compound interest
 
     //   annual rate + multiple compounding periods in each year
 
-    static BigDecimal worthAtMaturityAtCompoundInterest(final BigDecimal investment, final int years, final BigDecimal annualRate, final int periodsPerYear) {
+    static BigDecimal worthAtMaturityAtCompoundInterest(final BigDecimal principal, final int years, final BigDecimal annualRate, final int periodsPerYear) {
         final BigDecimal rate = compoundRate(years, annualRate, periodsPerYear);
-        return investment.multiply(rate);
+        return principal.multiply(rate);
     }
 
-    static BigDecimal compoundInterest(final BigDecimal investment, final int years, final BigDecimal annualRate, final int periodsPerYear) {
+    static BigDecimal compoundInterest(final BigDecimal principal, final int years, final BigDecimal annualRate, final int periodsPerYear) {
         final BigDecimal rate = compoundRate(years, annualRate, periodsPerYear);
-        return investment.multiply(rate.subtract(ONE));
+        return principal.multiply(rate.subtract(ONE));
     }
 
     private static BigDecimal compoundRate(final int years, final BigDecimal annualRate, final int periodsPerYear) {
@@ -45,22 +45,27 @@ final class Interest {
 
     //   rate matches period
 
-    static BigDecimal worthAtMaturityAtCompoundInterest(final BigDecimal investment, final int periods, final BigDecimal ratePerPeriod) {
-        return worthAtMaturityAtCompoundInterest(investment, periods, ratePerPeriod, ONE_PERIOD);
+    static BigDecimal worthAtMaturityAtCompoundInterest(final BigDecimal principal, final int periods, final BigDecimal ratePerPeriod) {
+        return worthAtMaturityAtCompoundInterest(principal, periods, ratePerPeriod, ONE_PERIOD);
     }
 
-    static BigDecimal compoundInterest(final BigDecimal investment, final int periods, final BigDecimal ratePerPeriod) {
-        return compoundInterest(investment, periods, ratePerPeriod, ONE_PERIOD);
+    static BigDecimal compoundInterest(final BigDecimal principal, final int periods, final BigDecimal ratePerPeriod) {
+        return compoundInterest(principal, periods, ratePerPeriod, ONE_PERIOD);
     }
 
     private static final int ONE_PERIOD = 1;
 
     // Continuous compounding
 
-    static BigDecimal worthAtMaturityWithContinuousCompounding(final BigDecimal investment, final int years, final BigDecimal annualRate) {
+    static BigDecimal worthAtMaturityWithContinuousCompounding(final BigDecimal principal, final int years, final BigDecimal annualRate) {
         final double r = annualRate.doubleValue();
         final double y = (double) years;
         final double rate = pow(E, r * y);
-        return investment.multiply(number(rate));
+        return principal.multiply(number(rate));
+    }
+
+    static BigDecimal continuousInterest(final BigDecimal principal, final int years, final BigDecimal annualRate) {
+        final BigDecimal worth = worthAtMaturityWithContinuousCompounding(principal, years, annualRate);
+        return worth.subtract(principal);
     }
 }

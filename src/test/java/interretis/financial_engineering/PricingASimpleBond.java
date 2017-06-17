@@ -15,15 +15,15 @@ public final class PricingASimpleBond {
     @Test
     public void simple_interest() {
         // given
-        final BigDecimal investment = amount(100);
+        final BigDecimal principal = amount(100);
         final int periods = 4;
         final BigDecimal ratePerPeriod = percent(10);
         // when
-        final BigDecimal interest = simpleInterest(investment, periods, ratePerPeriod);
+        final BigDecimal interest = simpleInterest(principal, periods, ratePerPeriod);
         // then
         assertThat(interest, is(closeTo(amount("40"), EPSILON)));
         // when
-        final BigDecimal worth = worthAtMaturityAtSimpleInterest(investment, periods, ratePerPeriod);
+        final BigDecimal worth = worthAtMaturityAtSimpleInterest(principal, periods, ratePerPeriod);
         // then
         assertThat(worth, is(closeTo(amount("140"), EPSILON)));
     }
@@ -31,15 +31,15 @@ public final class PricingASimpleBond {
     @Test
     public void compound_interest() {
         // given
-        final BigDecimal investment = amount(100);
+        final BigDecimal principal = amount(100);
         final int periods = 4;
         final BigDecimal ratePerPeriod = percent(10);
         // when
-        final BigDecimal worth = worthAtMaturityAtCompoundInterest(investment, periods, ratePerPeriod);
+        final BigDecimal worth = worthAtMaturityAtCompoundInterest(principal, periods, ratePerPeriod);
         // then
         assertThat(worth, is(closeTo(amount("146.41"), ONE_PERCENT)));
         // when
-        final BigDecimal interest = compoundInterest(investment, periods, ratePerPeriod);
+        final BigDecimal interest = compoundInterest(principal, periods, ratePerPeriod);
         // then
         assertThat(interest, is(closeTo(amount("46.41"), ONE_PERCENT)));
     }
@@ -47,16 +47,16 @@ public final class PricingASimpleBond {
     @Test
     public void compound_interest__annual_basis_interest_year__many_compounding_periods_each_year__basic_case() {
         // given
-        final BigDecimal investment = amount(100);
+        final BigDecimal principal = amount(100);
         final int years = 4;
-        final int compoundingPeriodsPerYear = 1;
+        final int periodsPerYear = 1;
         final BigDecimal annualRate = percent(10);
         // when
-        final BigDecimal worth = worthAtMaturityAtCompoundInterest(investment, years, annualRate, compoundingPeriodsPerYear);
+        final BigDecimal worth = worthAtMaturityAtCompoundInterest(principal, years, annualRate, periodsPerYear);
         // then
         assertThat(worth, is(closeTo(amount("146.41"), ONE_PERCENT)));
         // when
-        final BigDecimal interest = compoundInterest(investment, years, annualRate, compoundingPeriodsPerYear);
+        final BigDecimal interest = compoundInterest(principal, years, annualRate, periodsPerYear);
         // then
         assertThat(interest, is(closeTo(amount("46.41"), ONE_PERCENT)));
     }
@@ -64,16 +64,16 @@ public final class PricingASimpleBond {
     @Test
     public void compound_interest__annual_basis_interest_year__many_compounding_periods_each_year() {
         // given
-        final BigDecimal investment = amount(100);
+        final BigDecimal principal = amount(100);
         final int years = 4;
-        final int compoundingPeriodsPerYear = 2;
+        final int periodsPerYear = 2;
         final BigDecimal annualRate = percent(10);
         // when
-        final BigDecimal worth = worthAtMaturityAtCompoundInterest(investment, years, annualRate, compoundingPeriodsPerYear);
+        final BigDecimal worth = worthAtMaturityAtCompoundInterest(principal, years, annualRate, periodsPerYear);
         // then
         assertThat(worth, is(closeTo(amount("147.75"), ONE_PERCENT)));
         // when
-        final BigDecimal interest = compoundInterest(investment, years, annualRate, compoundingPeriodsPerYear);
+        final BigDecimal interest = compoundInterest(principal, years, annualRate, periodsPerYear);
         // then
         assertThat(interest, is(closeTo(amount("47.75"), ONE_PERCENT)));
     }
@@ -81,13 +81,17 @@ public final class PricingASimpleBond {
     @Test
     public void continuous_compounding() {
         // given
-        final BigDecimal investment = amount(1000);
+        final BigDecimal principal = amount(1000);
         final int years = 5;
         final BigDecimal annualRate = percent(5);
         // when
-        final BigDecimal worth = worthAtMaturityWithContinuousCompounding(investment, years, annualRate);
+        final BigDecimal worth = worthAtMaturityWithContinuousCompounding(principal, years, annualRate);
         // then
         assertThat(worth, is(closeTo(number("1284.02"), ONE_PERCENT)));
+        // when
+        final BigDecimal interest = continuousInterest(principal, years, annualRate);
+        // then
+        assertThat(interest, is(closeTo(number("284.02"), ONE_PERCENT)));
     }
 
     @Test
