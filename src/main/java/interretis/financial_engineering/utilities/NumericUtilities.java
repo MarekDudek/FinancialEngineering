@@ -17,6 +17,10 @@ public final class NumericUtilities {
         return normalize(new BigDecimal(number));
     }
 
+    public static BigDecimal number(final double number) {
+        return normalize(new BigDecimal(number));
+    }
+
     // normalization
 
     private static BigDecimal normalize(final BigDecimal number) {
@@ -55,5 +59,5 @@ public final class NumericUtilities {
     // precisions
 
     public static final BigDecimal EPSILON = number("0.000001");
-    public static final BigDecimal DEFAULT_PRECISION = percent("1");
+    public static final BigDecimal ONE_PERCENT = percent("1");
 }

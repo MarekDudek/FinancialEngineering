@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import static interretis.financial_engineering.utilities.NumericUtilities.divide;
 import static interretis.financial_engineering.utilities.NumericUtilities.number;
+import static java.lang.Math.E;
+import static java.lang.Math.pow;
 import static java.math.BigDecimal.ONE;
 
 final class Interest {
@@ -34,7 +36,14 @@ final class Interest {
         return investment.multiply(rate.subtract(ONE));
     }
 
-    //   rate per single period
+    private static BigDecimal compoundRate(final int years, final BigDecimal annualRate, final int periodsPerYear) {
+        final BigDecimal periodIncrease = divide(annualRate, number(periodsPerYear));
+        final BigDecimal periodRate = ONE.add(periodIncrease);
+        final int periods = years * periodsPerYear;
+        return periodRate.pow(periods);
+    }
+
+    //   rate matches period
 
     static BigDecimal worthAtMaturityAtCompoundInterest(final BigDecimal investment, final int periods, final BigDecimal ratePerPeriod) {
         return worthAtMaturityAtCompoundInterest(investment, periods, ratePerPeriod, ONE_PERIOD);
@@ -44,12 +53,14 @@ final class Interest {
         return compoundInterest(investment, periods, ratePerPeriod, ONE_PERIOD);
     }
 
-    private static BigDecimal compoundRate(final int years, final BigDecimal annualRate, final int periodsPerYear) {
-        final BigDecimal periodIncrease = divide(annualRate, number(periodsPerYear));
-        final BigDecimal periodRate = ONE.add(periodIncrease);
-        final int periods = years * periodsPerYear;
-        return periodRate.pow(periods);
-    }
-
     private static final int ONE_PERIOD = 1;
+
+    // Continuous compounding
+
+    static BigDecimal worthAtMaturityWithContinuousCompounding(final BigDecimal investment, final int years, final BigDecimal annualRate) {
+        final double r = annualRate.doubleValue();
+        final double y = (double) years;
+        final double rate = pow(E, r * y);
+        return investment.multiply(number(rate));
+    }
 }
