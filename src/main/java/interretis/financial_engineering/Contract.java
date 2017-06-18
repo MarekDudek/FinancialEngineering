@@ -9,6 +9,7 @@ import static interretis.financial_engineering.utilities.FunctionalUtilities.sum
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.rangeClosed;
 
+
 public final class Contract implements HasCashFlow {
 
     private final CashFlow cashFlow;
@@ -17,14 +18,15 @@ public final class Contract implements HasCashFlow {
         this.cashFlow = cashFlow;
     }
 
-    BigDecimal valueAtTime(final int time, final BigDecimal ratePerPeriod) {
-        return currentValue(cashFlow.atTime(time), ratePerPeriod, time);
+    BigDecimal valueAtTime(final int t, final BigDecimal r) {
+        final BigDecimal c = cashFlow.atTime(t);
+        return currentValue(c, r, t);
     }
 
-    BigDecimal presentValue(final BigDecimal ratePerPeriod) {
-        final IntStream time = rangeClosed(0, cashFlow.length());
-        final List<BigDecimal> valuesAtTime = time.mapToObj(
-                t -> valueAtTime(t, ratePerPeriod)
+    BigDecimal presentValue(final BigDecimal r) {
+        final IntStream ts = rangeClosed(0, cashFlow.maxTime());
+        final List<BigDecimal> valuesAtTime = ts.mapToObj(
+                t -> valueAtTime(t, r)
         ).collect(toList());
         return sum(valuesAtTime);
     }
