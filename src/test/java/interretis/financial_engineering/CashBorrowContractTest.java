@@ -21,7 +21,7 @@ public final class CashBorrowContractTest {
         final int maturity = 1;
         final BigDecimal borrowed = currentValue(AMOUNT, RATE, maturity);
         // when
-        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity).cashFlow(RATE);
+        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
         // then
         assertThat(cashFlow.atTime(0), is(equalTo(borrowed)));
         assertThat(cashFlow.atTime(maturity), is(closeTo(AMOUNT.negate(), ONE_PERCENT)));
@@ -33,7 +33,7 @@ public final class CashBorrowContractTest {
         final int maturity = 2;
         final BigDecimal borrowed = currentValue(AMOUNT, RATE, maturity);
         // when
-        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity).cashFlow(RATE);
+        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
         // then
         assertThat(cashFlow.atTime(0), is(equalTo(borrowed)));
         assertThat(cashFlow.atTime(1), is(equalTo(ZERO)));
@@ -46,7 +46,7 @@ public final class CashBorrowContractTest {
         final int maturity = 3;
         final BigDecimal borrowed = currentValue(AMOUNT, RATE, maturity);
         // when
-        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity).cashFlow(RATE);
+        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
         // then
         assertThat(cashFlow.atTime(0), is(equalTo(borrowed)));
         assertThat(cashFlow.atTime(1), is(equalTo(ZERO)));

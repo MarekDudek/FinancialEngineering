@@ -17,11 +17,9 @@ public final class PresentValueTest {
     public void test() {
         // given
         final BigDecimal ten = amount(10);
-        final List<BigDecimal> amounts = asList(ten, ten, ten, ten, ten, ten);
-        final CashFlow cashFLow = new CashFlow(amounts);
         final BigDecimal interestRatePerPeriod = percent(5);
         // when
-        final Contract contract = new Contract(cashFLow);
+        final Contract contract = new Contract(new CashFlow(asList(ten, ten, ten, ten, ten, ten)));
         // then
         final BigDecimal v0 = contract.valueAtTime(0, interestRatePerPeriod);
         assertThat(v0, is(closeTo(ten, ONE_PERCENT)));

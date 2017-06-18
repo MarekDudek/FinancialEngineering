@@ -1,5 +1,7 @@
 package interretis.financial_engineering;
 
+import lombok.ToString;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -7,7 +9,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static interretis.financial_engineering.utilities.NumericUtilities.divide;
 import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.ZERO;
 
+
+@ToString
 public final class CashFlow {
 
     public final List<BigDecimal> amounts;
@@ -24,6 +29,8 @@ public final class CashFlow {
     }
 
     public BigDecimal atTime(final int time) {
+        if (time >= amounts.size())
+            return ZERO;
         return amounts.get(time);
     }
 

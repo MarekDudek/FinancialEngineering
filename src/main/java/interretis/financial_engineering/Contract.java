@@ -9,7 +9,7 @@ import static interretis.financial_engineering.utilities.FunctionalUtilities.sum
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.rangeClosed;
 
-public final class Contract {
+public final class Contract implements HasCashFlow {
 
     public final CashFlow cashFlow;
 
@@ -27,5 +27,10 @@ public final class Contract {
                 t -> valueAtTime(t, ratePerPeriod)
         ).collect(toList());
         return sum(valuesAtTime);
+    }
+
+    @Override
+    public CashFlow getCashFlow() {
+        return cashFlow;
     }
 }
