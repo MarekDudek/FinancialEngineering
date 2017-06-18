@@ -24,7 +24,7 @@ public final class CashFlowTest {
         final BigDecimal c0 = c.atTime(0);
         assertThat(c0, is(equalTo(ten)));
         // then
-        final int n = c.N();
+        final int n = c.length();
         assertThat(n, is(equalTo(4)));
     }
 }

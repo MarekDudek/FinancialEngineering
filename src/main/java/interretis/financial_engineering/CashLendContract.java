@@ -10,11 +10,11 @@ import static java.util.Collections.nCopies;
 
 public final class CashLendContract implements HasCashFlow {
 
-    public final BigDecimal amount;
-    public final int maturity;
-    public final BigDecimal rate;
+    private final BigDecimal amount;
+    private final int maturity;
+    private final BigDecimal rate;
 
-    public CashLendContract(final BigDecimal amount, final int maturity, BigDecimal rate) {
+    CashLendContract(final BigDecimal amount, final int maturity, BigDecimal rate) {
         this.amount = amount;
         this.maturity = maturity;
         this.rate = rate;
@@ -22,7 +22,7 @@ public final class CashLendContract implements HasCashFlow {
 
     @Override
     public CashFlow getCashFlow() {
-        final List<BigDecimal> amounts = newArrayList(nCopies(5, ZERO));
+        final List<BigDecimal> amounts = newArrayList(nCopies(maturity + 1, ZERO));
         amounts.set(0, amount.negate());
         final BigDecimal worth = worthAtMaturityAtCompoundInterest(amount, maturity, rate);
         amounts.set(maturity, worth);

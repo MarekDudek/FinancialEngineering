@@ -11,18 +11,18 @@ import static java.util.stream.IntStream.rangeClosed;
 
 public final class Contract implements HasCashFlow {
 
-    public final CashFlow cashFlow;
+    private final CashFlow cashFlow;
 
-    public Contract(final CashFlow cashFlow) {
+    Contract(final CashFlow cashFlow) {
         this.cashFlow = cashFlow;
     }
 
-    public BigDecimal valueAtTime(final int time, final BigDecimal ratePerPeriod) {
+    BigDecimal valueAtTime(final int time, final BigDecimal ratePerPeriod) {
         return currentValue(cashFlow.atTime(time), ratePerPeriod, time);
     }
 
-    public BigDecimal presentValue(final BigDecimal ratePerPeriod) {
-        final IntStream time = rangeClosed(0, cashFlow.N());
+    BigDecimal presentValue(final BigDecimal ratePerPeriod) {
+        final IntStream time = rangeClosed(0, cashFlow.length());
         final List<BigDecimal> valuesAtTime = time.mapToObj(
                 t -> valueAtTime(t, ratePerPeriod)
         ).collect(toList());

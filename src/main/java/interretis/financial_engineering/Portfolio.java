@@ -7,15 +7,15 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
 
-public final class Portfolio {
+final class Portfolio {
 
-    public final List<HasCashFlow> contracts;
+    private final List<HasCashFlow> contracts;
 
-    public Portfolio(final List<HasCashFlow> contracts) {
+    Portfolio(final List<HasCashFlow> contracts) {
         this.contracts = contracts;
     }
 
-    public CashFlow getCashFlow() {
+    CashFlow getCashFlow() {
         final List<BigDecimal> amounts = newArrayList(nCopies(5, ZERO));
         for (final HasCashFlow contract : contracts)
             for (int i = 0; i < 5; i++) {

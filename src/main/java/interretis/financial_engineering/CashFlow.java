@@ -1,9 +1,12 @@
 package interretis.financial_engineering;
 
+import gnu.trove.map.hash.TIntObjectHashMap;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -15,26 +18,40 @@ import static java.math.BigDecimal.ZERO;
 @ToString
 public final class CashFlow {
 
-    public final List<BigDecimal> amounts;
+    private final TIntObjectHashMap<BigDecimal> cs;
 
     public CashFlow(final List<BigDecimal> amounts) {
+
         checkNotNull(amounts);
         checkArgument(amounts.size() > 0);
-        this.amounts = amounts;
+
+        cs = new TIntObjectHashMap<>();
+
+        final ListIterator<BigDecimal> iterator = amounts.listIterator();
+        while (iterator.hasNext())
+            cs.put(iterator.nextIndex(), iterator.next());
     }
 
-    public static BigDecimal currentValue(final BigDecimal c, final BigDecimal r, final int t) {
-        final BigDecimal denominator = ONE.add(r).pow(t);
-        return divide(c, denominator);
+
+    static BigDecimal currentValue(final BigDecimal cashFlow, final BigDecimal rate, final int time) {
+        return divide(
+                cashFlow,
+                ONE.add(rate).pow(time)
+        );
     }
 
-    public BigDecimal atTime(final int time) {
-        if (time >= amounts.size())
+    BigDecimal atTime(final int time) {
+        if (cs.containsKey(time))
+            return cs.get(time);
+        else
             return ZERO;
-        return amounts.get(time);
     }
 
-    public int N() {
-        return amounts.size() - 1;
+    Collection<BigDecimal> amounts() {
+        return cs.valueCollection();
+    }
+
+    int length() {
+        return cs.size() - 1;
     }
 }

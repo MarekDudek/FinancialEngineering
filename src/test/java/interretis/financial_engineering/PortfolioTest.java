@@ -46,7 +46,7 @@ public final class PortfolioTest {
 
         // then
 
-        for (final BigDecimal amount : cashFlow.amounts) {
+        for (final BigDecimal amount : cashFlow.amounts()) {
             assertThat(amount, is(closeTo(ZERO, EPSILON)));
         }
     }
@@ -71,7 +71,7 @@ public final class PortfolioTest {
 
         // then
 
-        for (final BigDecimal amount : cashFlow.amounts) {
+        for (final BigDecimal amount : cashFlow.amounts()) {
             assertThat(amount, is(closeTo(ZERO, EPSILON)));
         }
     }
