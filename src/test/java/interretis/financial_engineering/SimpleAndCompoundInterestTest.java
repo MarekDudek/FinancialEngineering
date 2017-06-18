@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.is;
 
-public final class PricingASimpleBond {
+public final class SimpleAndCompoundInterestTest {
 
     @Test
     public void simple_interest() {
@@ -92,17 +92,5 @@ public final class PricingASimpleBond {
         final BigDecimal interest = continuousInterest(principal, years, annualRate);
         // then
         assertThat(interest, is(closeTo(number("284.02"), ONE_PERCENT)));
-    }
-
-    @Test
-    public void pricing_a_simple_bond_for_one_year() {
-        // given
-        final BigDecimal A = amount(70); // pay in 1 year
-        final BigDecimal r = percent(5);
-        final ZeroCouponBond bond = new ZeroCouponBond(A);
-        // when
-        final BigDecimal price = bond.price(r);
-        // then
-        assertThat(price, is(closeTo(amount("66.67"), ONE_PERCENT)));
     }
 }
