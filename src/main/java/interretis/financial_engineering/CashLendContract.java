@@ -8,20 +8,19 @@ import static interretis.financial_engineering.Interest.worthAtMaturityAtCompoun
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
 
+public final class CashLendContract {
 
-public final class Borrow {
+    public final BigDecimal amount;
+    public final int maturity;
 
-    private final BigDecimal amount;
-    private final int maturity;
-
-    public Borrow(final BigDecimal amount, final int maturity) {
+    public CashLendContract(final BigDecimal amount, final int maturity) {
         this.amount = amount;
         this.maturity = maturity;
     }
 
     public CashFlow cashFlow(final BigDecimal rate) {
         final List<BigDecimal> amounts = new ArrayList<>(nCopies(maturity + 1, ZERO));
-        amounts.set(0, amount);
+        amounts.set(0, amount.negate());
         final BigDecimal worth = worthAtMaturityAtCompoundInterest(amount, maturity, rate);
         amounts.set(maturity, worth);
         return new CashFlow(amounts);
