@@ -3,12 +3,10 @@ package interretis.financial_engineering;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.Math.max;
-import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.nCopies;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.rangeClosed;
 
 final class Portfolio {
 
@@ -26,11 +24,9 @@ final class Portfolio {
                 new CashFlow(emptyList()),
                 (c1, c2) -> {
                     final int maxTime = max(c1.maxTime(), c2.maxTime());
-                    final List<BigDecimal> amounts = newArrayList(nCopies(maxTime, ZERO));
-                    for (int i = 0; i < maxTime; i++) {
-                        final BigDecimal sum = c1.atTime(i).add(c2.atTime(i));
-                        amounts.set(i, sum);
-                    }
+                    final List<BigDecimal> amounts = rangeClosed(0, maxTime).mapToObj(
+                            t -> c1.atTime(t).add(c2.atTime(t))
+                    ).collect(toList());
                     return new CashFlow(amounts);
                 });
     }

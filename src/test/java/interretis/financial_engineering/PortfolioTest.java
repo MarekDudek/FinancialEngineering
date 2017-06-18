@@ -31,44 +31,23 @@ public final class PortfolioTest {
         final BigDecimal c0 = TEN.subtract(PRESENT_VALUE);
         final Contract bought = new Contract(new CashFlow(asList(c0, TEN, TEN, TEN, TEN)));
         // then
-        assertThat(bought.getCashFlow(), is(equalTo(new CashFlow(asList(
-                new BigDecimal("-35.459506"), TEN, TEN, TEN, TEN
-        )))));
+        assertThat(bought.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("-35.459506"), TEN, TEN, TEN, TEN)))));
         // when
         final CashBorrowContract borrow1 = new CashBorrowContract(TEN_FOR_1, 1, RATE);
         final CashBorrowContract borrow2 = new CashBorrowContract(TEN_FOR_2, 2, RATE);
         final CashBorrowContract borrow3 = new CashBorrowContract(TEN_FOR_3, 3, RATE);
         final CashBorrowContract borrow4 = new CashBorrowContract(TEN_FOR_4, 4, RATE);
         // then
-        assertThat(borrow1.getCashFlow(), is(equalTo(new CashFlow(asList(
-                new BigDecimal("9.523810"),
-                new BigDecimal("-10.000000500000")
-        )))));
-        assertThat(borrow2.getCashFlow(), is(equalTo(new CashFlow(asList(
-                new BigDecimal("9.070295"),
-                ZERO,
-                new BigDecimal("-10.000000237500000000")
-        )))));
-        assertThat(borrow3.getCashFlow(), is(equalTo(new CashFlow(asList(
-                new BigDecimal("8.638376"),
-                ZERO,
-                ZERO,
-                new BigDecimal("-10.000000017000000000000000")
-        )))));
-        assertThat(borrow4.getCashFlow(), is(equalTo(new CashFlow(asList(
-                new BigDecimal("8.227025"),
-                ZERO,
-                ZERO,
-                ZERO,
-                new BigDecimal("-10.000000306406250000000000000000")
-        )))));
+        assertThat(borrow1.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("9.523810"), new BigDecimal("-10.000000500000"))))));
+        assertThat(borrow2.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("9.070295"), ZERO, new BigDecimal("-10.000000237500000000"))))));
+        assertThat(borrow3.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("8.638376"), ZERO, ZERO, new BigDecimal("-10.000000017000000000000000"))))));
+        assertThat(borrow4.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("8.227025"), ZERO, ZERO, ZERO, new BigDecimal("-10.000000306406250000000000000000"))))));
         // when
         final Portfolio portfolio = new Portfolio(asList(bought, borrow1, borrow2, borrow3, borrow4));
         final CashFlow cashFlow = portfolio.getCashFlow();
         // then
-        for (final BigDecimal amount : cashFlow.amounts()) {
+        for (final BigDecimal amount : cashFlow.amounts())
             assertThat(amount, is(closeTo(ZERO, EPSILON)));
-        }
     }
 
     @Test
@@ -77,9 +56,7 @@ public final class PortfolioTest {
         final BigDecimal c0 = PRESENT_VALUE.subtract(TEN);
         final Contract sold = new Contract(new CashFlow(asList(c0, MINUS_TEN, MINUS_TEN, MINUS_TEN, MINUS_TEN)));
         // then
-        assertThat(sold.getCashFlow(), is(equalTo(new CashFlow(asList(
-                new BigDecimal("35.459506"), MINUS_TEN, MINUS_TEN, MINUS_TEN, MINUS_TEN
-        )))));
+        assertThat(sold.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("35.459506"), MINUS_TEN, MINUS_TEN, MINUS_TEN, MINUS_TEN)))));
         // when
         final CashLendContract lent1 = new CashLendContract(TEN_FOR_1, 1, RATE);
         final CashLendContract lent2 = new CashLendContract(TEN_FOR_2, 2, RATE);
@@ -94,8 +71,7 @@ public final class PortfolioTest {
         final Portfolio portfolio = new Portfolio(asList(sold, lent1, lent2, lent3, lent4));
         final CashFlow cashFlow = portfolio.getCashFlow();
         // then
-        for (final BigDecimal amount : cashFlow.amounts()) {
+        for (final BigDecimal amount : cashFlow.amounts())
             assertThat(amount, is(closeTo(ZERO, EPSILON)));
-        }
     }
 }
