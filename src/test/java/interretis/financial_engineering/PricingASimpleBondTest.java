@@ -51,6 +51,8 @@ public final class PricingASimpleBondTest {
     public void sell_contract_and_lend_cash() {
         // given
         final Contract sold = new Contract(new CashFlow(asList(PV, AMOUNT.negate())));
+        // then
+        assertThat(sold.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("66.666667"), new BigDecimal("-70.000000"))))));
         final CashLendContract lend = new CashLendContract(AMOUNT_FOR_1, 1, RATE);
         // when
         final Portfolio portfolio = new Portfolio(asList(sold, lend));
