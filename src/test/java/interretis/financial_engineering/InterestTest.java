@@ -77,11 +77,11 @@ public final class InterestTest {
         final int periodsPerYear = 1;
         final BigDecimal annualRate = percent(10);
         // when
-        final BigDecimal worth = worthAtMaturityAtCompoundInterest(principal, years, annualRate, periodsPerYear);
+        final BigDecimal worth = worthAtMaturityAtCompoundInterest(principal, annualRate, periodsPerYear, years);
         // then
         assertThat(worth, is(closeTo(amount("146.41"), ONE_PERCENT)));
         // when
-        final BigDecimal interest = compoundInterest(principal, years, annualRate, periodsPerYear);
+        final BigDecimal interest = compoundInterest(principal, annualRate, periodsPerYear, years);
         // then
         assertThat(interest, is(closeTo(amount("46.41"), ONE_PERCENT)));
     }
@@ -94,11 +94,11 @@ public final class InterestTest {
         final int periodsPerYear = 2;
         final BigDecimal annualRate = percent(10);
         // when
-        final BigDecimal worth = worthAtMaturityAtCompoundInterest(principal, years, annualRate, periodsPerYear);
+        final BigDecimal worth = worthAtMaturityAtCompoundInterest(principal, annualRate, periodsPerYear, years);
         // then
         assertThat(worth, is(closeTo(amount("147.75"), ONE_PERCENT)));
         // when
-        final BigDecimal interest = compoundInterest(principal, years, annualRate, periodsPerYear);
+        final BigDecimal interest = compoundInterest(principal, annualRate, periodsPerYear, years);
         // then
         assertThat(interest, is(closeTo(amount("47.75"), ONE_PERCENT)));
     }

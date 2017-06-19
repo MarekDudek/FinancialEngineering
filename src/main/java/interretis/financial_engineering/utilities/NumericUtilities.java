@@ -56,6 +56,10 @@ public final class NumericUtilities {
         return nominator.divide(denominator, DEFAULT_MODE);
     }
 
+    public static BigDecimal divide(final BigDecimal nominator, final int denominator) {
+        return divide(nominator, number(denominator));
+    }
+
     // precisions
 
     public static final BigDecimal EPSILON = number("0.000001");
