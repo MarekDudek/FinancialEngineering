@@ -10,6 +10,19 @@ import static java.math.BigDecimal.ONE;
 
 final class Interest {
 
+    // One-time interest
+
+    static BigDecimal worthAtMaturityAtBasicInterest(final BigDecimal principal, final BigDecimal rate) {
+        return principal.multiply(ONE.add(rate));
+    }
+
+    static BigDecimal priceForWorthAtMaturityAtBasicInterest(final BigDecimal worth, final BigDecimal rate) {
+        return divide(
+                worth,
+                ONE.add(rate)
+        );
+    }
+
     // Simple interest
 
     static BigDecimal worthAtMaturityAtSimpleInterest(final BigDecimal principal, final int periods, final BigDecimal ratePerPeriod) {

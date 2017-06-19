@@ -1,5 +1,7 @@
 package interretis.financial_engineering;
 
+import lombok.AllArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -8,17 +10,12 @@ import static interretis.financial_engineering.Interest.worthAtMaturityAtCompoun
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
 
+@AllArgsConstructor
 public final class CashLendContract implements HasCashFlow {
 
     private final BigDecimal amount;
     private final int maturity;
     private final BigDecimal rate;
-
-    CashLendContract(final BigDecimal amount, final int maturity, BigDecimal rate) {
-        this.amount = amount;
-        this.maturity = maturity;
-        this.rate = rate;
-    }
 
     @Override
     public CashFlow getCashFlow() {

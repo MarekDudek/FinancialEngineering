@@ -1,5 +1,7 @@
 package interretis.financial_engineering;
 
+import lombok.AllArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -8,13 +10,10 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.rangeClosed;
 
+@AllArgsConstructor
 final class Portfolio {
 
     private final List<HasCashFlow> contracts;
-
-    Portfolio(final List<HasCashFlow> contracts) {
-        this.contracts = contracts;
-    }
 
     CashFlow getCashFlow() {
         final List<CashFlow> cashFlows = contracts.stream().map(

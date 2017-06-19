@@ -10,7 +10,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.is;
 
-public final class SimpleAndCompoundInterestTest {
+public final class InterestTest {
+
+    @Test
+    public void basic_interest() {
+        // given
+        final BigDecimal worth = worthAtMaturityAtBasicInterest(number(100), percent(5));
+        // then
+        assertThat(worth, is(closeTo(number(105), EPSILON)));
+        // given
+        final BigDecimal price = priceForWorthAtMaturityAtBasicInterest(number(105), percent(5));
+        // then
+        assertThat(price, is(closeTo(number(100), EPSILON)));
+    }
 
     @Test
     public void simple_interest() {

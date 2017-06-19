@@ -1,5 +1,7 @@
 package interretis.financial_engineering;
 
+import lombok.AllArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -9,14 +11,10 @@ import static interretis.financial_engineering.utilities.FunctionalUtilities.sum
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.rangeClosed;
 
-
+@AllArgsConstructor
 public final class Contract implements HasCashFlow {
 
     private final CashFlow cashFlow;
-
-    Contract(final CashFlow cashFlow) {
-        this.cashFlow = cashFlow;
-    }
 
     BigDecimal valueAtTime(final int t, final BigDecimal r) {
         final BigDecimal c = cashFlow.atTime(t);

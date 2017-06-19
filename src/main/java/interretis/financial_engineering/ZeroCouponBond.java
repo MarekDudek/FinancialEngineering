@@ -1,20 +1,17 @@
 package interretis.financial_engineering;
 
+import lombok.AllArgsConstructor;
+
 import java.math.BigDecimal;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static interretis.financial_engineering.utilities.NumericUtilities.divide;
-import static java.math.BigDecimal.ONE;
+import static interretis.financial_engineering.Interest.priceForWorthAtMaturityAtBasicInterest;
 
-public final class ZeroCouponBond {
+@AllArgsConstructor
+final class ZeroCouponBond {
 
     private final BigDecimal principal;
 
-    public ZeroCouponBond(final BigDecimal principal) {
-        this.principal = checkNotNull(principal);
-    }
-
-    public BigDecimal price(final BigDecimal interestRate) {
-        return divide(principal, ONE.add(interestRate));
+    BigDecimal price(final BigDecimal interestRate) {
+        return priceForWorthAtMaturityAtBasicInterest(principal, interestRate);
     }
 }
