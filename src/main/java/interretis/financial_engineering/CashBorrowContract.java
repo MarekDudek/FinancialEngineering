@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static interretis.financial_engineering.Interest.worthAtMaturityAtCompoundInterest;
+import static interretis.financial_engineering.Interest.worthAtCompoundInterest;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
 
@@ -21,7 +21,7 @@ public final class CashBorrowContract implements HasCashFlow {
     public CashFlow getCashFlow() {
         final List<BigDecimal> amounts = newArrayList(nCopies(maturity + 1, ZERO));
         amounts.set(0, amount);
-        final BigDecimal worth = worthAtMaturityAtCompoundInterest(amount, maturity, rate);
+        final BigDecimal worth = worthAtCompoundInterest(amount, rate, maturity);
         amounts.set(maturity, worth.negate());
         return new CashFlow(amounts);
     }

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static interretis.financial_engineering.utilities.NumericUtilities.divide;
-import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 
 @EqualsAndHashCode

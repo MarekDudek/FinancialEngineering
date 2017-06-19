@@ -60,6 +60,10 @@ public final class NumericUtilities {
         return divide(nominator, number(denominator));
     }
 
+    public static BigDecimal multiply(final BigDecimal factor1, final int factor2) {
+        return factor1.multiply(number(factor2));
+    }
+
     // precisions
 
     public static final BigDecimal EPSILON = number("0.000001");
