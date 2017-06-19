@@ -29,13 +29,6 @@ public final class CashFlow {
     }
 
 
-    static BigDecimal currentValue(final BigDecimal c, final BigDecimal r, final int t) {
-        return divide(
-                c,
-                ONE.add(r).pow(t)
-        );
-    }
-
     BigDecimal atTime(final int time) {
         if (cs.containsKey(time))
             return cs.get(time);

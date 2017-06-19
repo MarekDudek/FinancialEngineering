@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 
-import static interretis.financial_engineering.CashFlow.currentValue;
+import static interretis.financial_engineering.Interest.discount;
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
 import static java.math.BigDecimal.ZERO;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,7 +19,7 @@ public final class CashBorrowContractTest {
     public void borrowing_up_to_time_1() {
         // given
         final int maturity = 1;
-        final BigDecimal borrowed = currentValue(AMOUNT, RATE, maturity);
+        final BigDecimal borrowed = discount(AMOUNT, RATE, maturity);
         // when
         final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
         // then
@@ -31,7 +31,7 @@ public final class CashBorrowContractTest {
     public void borrowing_up_to_time_2() {
         // given
         final int maturity = 2;
-        final BigDecimal borrowed = currentValue(AMOUNT, RATE, maturity);
+        final BigDecimal borrowed = discount(AMOUNT, RATE, maturity);
         // when
         final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
         // then
@@ -44,7 +44,7 @@ public final class CashBorrowContractTest {
     public void borrowing_up_to_time_3() {
         // given
         final int maturity = 3;
-        final BigDecimal borrowed = currentValue(AMOUNT, RATE, maturity);
+        final BigDecimal borrowed = discount(AMOUNT, RATE, maturity);
         // when
         final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
         // then

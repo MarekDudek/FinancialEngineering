@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static interretis.financial_engineering.CashFlow.currentValue;
+import static interretis.financial_engineering.Interest.discount;
 import static interretis.financial_engineering.utilities.FunctionalUtilities.sum;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.rangeClosed;
@@ -18,7 +18,7 @@ public final class Contract implements HasCashFlow {
 
     BigDecimal valueAtTime(final int t, final BigDecimal r) {
         final BigDecimal c = cashFlow.atTime(t);
-        return currentValue(c, r, t);
+        return discount(c, r, t);
     }
 
     BigDecimal presentValue(final BigDecimal r) {

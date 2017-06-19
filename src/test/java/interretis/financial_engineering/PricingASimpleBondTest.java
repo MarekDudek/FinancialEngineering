@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 
-import static interretis.financial_engineering.CashFlow.currentValue;
+import static interretis.financial_engineering.Interest.discount;
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;
@@ -19,32 +19,33 @@ public final class PricingASimpleBondTest {
     @Test
     public void pricing_a_simple_bond_for_one_year() {
         // given
-        final ZeroCouponBond bond = new ZeroCouponBond(AMOUNT);
+        final ZeroCouponBond b = new ZeroCouponBond(AMOUNT);
         // when
-        final BigDecimal price = bond.price(RATE);
+        final BigDecimal p = b.price(RATE);
         // then
-        assertThat(price, is(closeTo(amount("66.67"), ONE_PERCENT)));
+        assertThat(p, is(closeTo(amount("66.67"), ONE_PERCENT)));
     }
 
     private static final Contract CONTRACT = new Contract(new CashFlow(asList(ZERO, amount(70))));
     private static final BigDecimal PV = CONTRACT.presentValue(RATE);
-    private static final BigDecimal AMOUNT_FOR_1 = currentValue(AMOUNT, RATE, 1);
+    private static final BigDecimal AMOUNT_FOR_1 = discount(AMOUNT, RATE, 1);
 
     @Test
     public void buy_simple_bond_for_borrowed() {
         // given
-        final Contract bought = new Contract(new CashFlow(asList(PV.negate(), AMOUNT)));
+        final Contract c = new Contract(new CashFlow(asList(PV.negate(), AMOUNT)));
         // then
-        assertThat(bought.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("-66.666667"), new BigDecimal("70.000000"))))));
+        assertThat(c.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("-66.666667"), new BigDecimal("70.000000"))))));
         // when
-        final CashBorrowContract borrow = new CashBorrowContract(AMOUNT_FOR_1, 1, RATE);
+        final CashBorrowContract b = new CashBorrowContract(AMOUNT_FOR_1, 1, RATE);
         // then
-        assertThat(borrow.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("66.666667"), new BigDecimal("-70.000000350000"))))));
+        assertThat(b.getCashFlow(), is(equalTo(new CashFlow(asList(new BigDecimal("66.666667"), new BigDecimal("-70.000000350000"))))));
         // when
-        final Portfolio portfolio = new Portfolio(asList(bought, borrow));
+        final Portfolio portfolio = new Portfolio(asList(c, b));
         // then
         for (final BigDecimal amount : portfolio.getCashFlow().amounts())
             assertThat(amount, is(closeTo(ZERO, EPSILON)));
+
     }
 
     @Test

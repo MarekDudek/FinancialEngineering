@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 
-import static interretis.financial_engineering.CashFlow.currentValue;
+import static interretis.financial_engineering.Interest.discount;
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;
@@ -19,10 +19,10 @@ public final class PortfolioTest {
 
     private static final Contract CONTRACT = new Contract(new CashFlow(asList(TEN, TEN, TEN, TEN, TEN)));
 
-    private static final BigDecimal TEN_FOR_1 = currentValue(TEN, COMMON_RATE, 1);
-    private static final BigDecimal TEN_FOR_2 = currentValue(TEN, COMMON_RATE, 2);
-    private static final BigDecimal TEN_FOR_3 = currentValue(TEN, COMMON_RATE, 3);
-    private static final BigDecimal TEN_FOR_4 = currentValue(TEN, COMMON_RATE, 4);
+    private static final BigDecimal TEN_FOR_1 = discount(TEN, COMMON_RATE, 1);
+    private static final BigDecimal TEN_FOR_2 = discount(TEN, COMMON_RATE, 2);
+    private static final BigDecimal TEN_FOR_3 = discount(TEN, COMMON_RATE, 3);
+    private static final BigDecimal TEN_FOR_4 = discount(TEN, COMMON_RATE, 4);
 
     @Test
     public void buy_contract_for_borrowed_cash() {

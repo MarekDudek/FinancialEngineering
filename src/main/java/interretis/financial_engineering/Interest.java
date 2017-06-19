@@ -10,17 +10,37 @@ import static java.math.BigDecimal.ONE;
 
 final class Interest {
 
+    // Basic operations
+
+    // @formatter:off
+    /**
+     *  a * (1+r)^t
+     */
+    static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int t) {
+        return a.multiply((ONE.add(r)).pow(t));
+    }
+    // @formatter:on
+
+    // @formatter:off
+    /**
+     *     a
+     *  -------
+     *  (1+r)^t
+     */
+    static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int t) {
+        return divide(a, (ONE.add(r)).pow(t));
+    }
+    // @formatter:on
+
+
     // One-time interest
 
     static BigDecimal worthAtMaturityAtBasicInterest(final BigDecimal principal, final BigDecimal rate) {
-        return principal.multiply(ONE.add(rate));
+        return compound(principal, rate, 1);
     }
 
     static BigDecimal priceForWorthAtMaturityAtBasicInterest(final BigDecimal worth, final BigDecimal rate) {
-        return divide(
-                worth,
-                ONE.add(rate)
-        );
+        return discount(worth, rate, 1);
     }
 
     // Simple interest

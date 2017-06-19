@@ -13,6 +13,19 @@ import static org.hamcrest.Matchers.is;
 public final class InterestTest {
 
     @Test
+    public void compounding_and_discounting() {
+        // given
+        final BigDecimal r = percent(5);
+        final int t = 3;
+        final BigDecimal a = amount(100);
+        // when
+        final BigDecimal c = compound(a, r, t);
+        final BigDecimal d = discount(c, r, t);
+        // then
+        assertThat(d, is(closeTo(d, EPSILON)));
+    }
+
+    @Test
     public void basic_interest() {
         // given
         final BigDecimal worth = worthAtMaturityAtBasicInterest(number(100), percent(5));
