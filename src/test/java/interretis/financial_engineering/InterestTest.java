@@ -17,24 +17,27 @@ public final class InterestTest {
         // given
         final BigDecimal r = percent(5);
         final int t = 3;
-        final BigDecimal a = amount(100);
+        final BigDecimal amount = amount(100);
         // when
-        final BigDecimal c = compound(a, r, t);
-        final BigDecimal d = discount(c, r, t);
+        final BigDecimal compounded = compound(amount, r, t);
+        final BigDecimal discounted = discount(compounded, r, t);
         // then
-        assertThat(d, is(closeTo(d, EPSILON)));
+        assertThat(discounted, is(closeTo(amount, EPSILON)));
     }
 
     @Test
     public void basic_interest() {
-        // given
-        final BigDecimal worth = worthAtBasicInterest(number(100), percent(5));
         // then
-        assertThat(worth, is(closeTo(number(105), EPSILON)));
+        assertThat(
+                worthAtBasicInterest(number(100), percent(5)),
+                is(closeTo(number(105), EPSILON))
+        );
         // given
-        final BigDecimal price = priceAtBasicInterest(number(105), percent(5));
         // then
-        assertThat(price, is(closeTo(number(100), EPSILON)));
+        assertThat(
+                priceAtBasicInterest(number(105), percent(5)),
+                is(closeTo(number(100), EPSILON))
+        );
     }
 
     @Test
