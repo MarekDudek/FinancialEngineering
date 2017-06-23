@@ -10,6 +10,7 @@ import static interretis.financial_engineering.Interest.worthAtCompoundInterest;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
 
+@Deprecated
 @AllArgsConstructor
 public final class CashBorrowContract implements HasCashFlow {
 
@@ -18,6 +19,7 @@ public final class CashBorrowContract implements HasCashFlow {
     private final BigDecimal rate;
 
     @Override
+    @Deprecated
     public CashFlow getCashFlow() {
         final List<BigDecimal> amounts = newArrayList(nCopies(maturity + 1, ZERO));
         amounts.set(0, amount);
@@ -25,4 +27,5 @@ public final class CashBorrowContract implements HasCashFlow {
         amounts.set(maturity, worth.negate());
         return new CashFlow(amounts);
     }
+
 }

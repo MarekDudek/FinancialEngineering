@@ -21,7 +21,7 @@ final class Interest {
     }
 
     /** a * (1 + r/n)^(y * n) */
-    private static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n, final int y)
+    static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n, final int y)
     {
         return a.multiply(ONE.add(divide(r, n)).pow(y * n));
     }

@@ -80,5 +80,5 @@ public final class NumericUtilities {
 
     public static final BigDecimal EPSILON = number("0.000001");
     public static final BigDecimal ONE_PERCENT = percent(1);
-
+    public static final BigDecimal CENT = amount("0.01");
 }
