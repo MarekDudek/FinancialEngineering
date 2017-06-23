@@ -40,11 +40,19 @@ public final class NumericUtilities {
         return number(number);
     }
 
+    public static BigDecimal amount(final double number) {
+        return number(number);
+    }
+
     public static BigDecimal percent(final String number) {
         return divide(number(number), HUNDRED);
     }
 
     public static BigDecimal percent(final int number) {
+        return divide(number(number), HUNDRED);
+    }
+
+    public static BigDecimal percent(final double number) {
         return divide(number(number), HUNDRED);
     }
 
@@ -67,5 +75,6 @@ public final class NumericUtilities {
     // precisions
 
     public static final BigDecimal EPSILON = number("0.000001");
-    public static final BigDecimal ONE_PERCENT = percent("1");
+    public static final BigDecimal ONE_PERCENT = percent(1);
+
 }

@@ -11,42 +11,34 @@ final class Interest {
 
     // Basic operations
 
-    // @formatter:off
-    /**
-     *  a * (1 + n*r)
-     */
-    // @formatter:on
-    private static BigDecimal simple(final BigDecimal a, final BigDecimal r, final int n) {
+    /** a * (1 + n*r) */
+    private static BigDecimal simple(final BigDecimal a, final BigDecimal r, final int n)
+    {
         return a.multiply(ONE.add(multiply(r, n)));
     }
 
-    // @formatter:off
-    /**
-     *  a * (1 + r)^n
-     */
-    // @formatter:on
-    static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n) {
+    /** a * (1 + r)^n */
+    static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n)
+    {
         return a.multiply((ONE.add(r)).pow(n));
     }
 
-    // @formatter:off
-    /**
-     * a * (1 + r/n)^(y*n)
-     */
-    // @formatter:on
-    private static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n, final int y) {
+    /** a * (1 + r/n)^(y * n) */
+    private static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n, final int y)
+    {
         return a.multiply((ONE.add(divide(r, n))).pow(y * n));
     }
 
-    // @formatter:off
-    /**
-     *     a
-     *  -------
-     *  (1+r)^n
-     */
-    // @formatter:on
-    static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n) {
+    /** a / (1 + r)^n */
+    static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n)
+    {
         return divide(a, (ONE.add(r)).pow(n));
+    }
+
+    /** a / (1 + r/n)^(y*n) */
+    static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n, final int y)
+    {
+        return divide(a, (ONE.add(divide(r, n))).pow(y * n));
     }
 
     private static final int ONE_PERIOD = 1;
