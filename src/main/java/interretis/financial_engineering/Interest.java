@@ -3,13 +3,9 @@ package interretis.financial_engineering;
 import java.math.BigDecimal;
 
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
-import static java.lang.Math.E;
-import static java.lang.Math.pow;
 import static java.math.BigDecimal.ONE;
 
 final class Interest {
-
-    // Basic operations
 
     /** a * (1 + n*r) */
     private static BigDecimal simple(final BigDecimal a, final BigDecimal r, final int n)
@@ -17,40 +13,48 @@ final class Interest {
         return a.multiply(ONE.add(multiply(r, n)));
     }
 
+
     /** a * (1 + r)^n */
     static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n)
     {
-        return a.multiply((ONE.add(r)).pow(n));
+        return a.multiply(ONE.add(r).pow(n));
     }
 
     /** a * (1 + r/n)^(y * n) */
     private static BigDecimal compound(final BigDecimal a, final BigDecimal r, final int n, final int y)
     {
-        return a.multiply((ONE.add(divide(r, n))).pow(y * n));
+        return a.multiply(ONE.add(divide(r, n)).pow(y * n));
+    }
+
+    /** a * e^(r*y) */
+    private static BigDecimal continuous(final BigDecimal a, final BigDecimal r, final int y)
+    {
+        return a.multiply(exp(multiply(r, y)));
     }
 
     /** a / (1 + r)^n */
     static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n)
     {
-        return divide(a, (ONE.add(r)).pow(n));
+        return divide(a, ONE.add(r).pow(n));
     }
 
     /** a / (1 + r/n)^(y*n) */
     static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n, final int y)
     {
-        return divide(a, (ONE.add(divide(r, n))).pow(y * n));
+        return divide(a, ONE.add(divide(r, n)).pow(y * n));
     }
+
 
     private static final int ONE_PERIOD = 1;
 
     // One-time interest
 
-    static BigDecimal worthAtBasicInterest(final BigDecimal principal, final BigDecimal rate) {
-        return compound(principal, rate, ONE_PERIOD);
+    static BigDecimal futurePriceAtBasicInterest(final BigDecimal price, final BigDecimal rate) {
+        return compound(price, rate, ONE_PERIOD);
     }
 
-    static BigDecimal priceAtBasicInterest(final BigDecimal worth, final BigDecimal rate) {
-        return discount(worth, rate, ONE_PERIOD);
+    static BigDecimal priceAtBasicInterest(final BigDecimal futurePrice, final BigDecimal rate) {
+        return discount(futurePrice, rate, ONE_PERIOD);
     }
 
     // Simple interest
@@ -88,10 +92,7 @@ final class Interest {
     // Continuous compounding
 
     static BigDecimal worthWithContinuousCompounding(final BigDecimal principal, final int years, final BigDecimal annualRate) {
-        final double r = annualRate.doubleValue();
-        final double y = (double) years;
-        final double rate = pow(E, r * y);
-        return principal.multiply(number(rate));
+        return continuous(principal, annualRate, years);
     }
 
     static BigDecimal continuousInterest(final BigDecimal principal, final int years, final BigDecimal annualRate) {

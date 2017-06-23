@@ -72,6 +72,10 @@ public final class NumericUtilities {
         return factor1.multiply(number(factor2));
     }
 
+    public static BigDecimal exp(final BigDecimal e) {
+        return number(Math.exp(e.doubleValue()));
+    }
+
     // precisions
 
     public static final BigDecimal EPSILON = number("0.000001");

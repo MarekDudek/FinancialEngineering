@@ -29,7 +29,7 @@ public final class InterestTest {
     public void basic_interest() {
         // then
         assertThat(
-                worthAtBasicInterest(number(100), percent(5)),
+                futurePriceAtBasicInterest(number(100), percent(5)),
                 is(closeTo(number(105), EPSILON))
         );
         // given

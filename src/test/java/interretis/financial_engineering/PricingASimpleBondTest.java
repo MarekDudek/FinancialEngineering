@@ -16,16 +16,6 @@ public final class PricingASimpleBondTest {
     private static final BigDecimal AMOUNT = amount(70);
     private static final BigDecimal RATE = percent(5);
 
-    @Test
-    public void pricing_a_simple_bond_for_one_year() {
-        // given
-        final ZeroCouponBond b = new ZeroCouponBond(AMOUNT);
-        // when
-        final BigDecimal p = b.price(RATE);
-        // then
-        assertThat(p, is(closeTo(amount("66.67"), ONE_PERCENT)));
-    }
-
     private static final Contract CONTRACT = new Contract(new CashFlow(asList(ZERO, amount(70))));
     private static final BigDecimal PV = CONTRACT.presentValue(RATE);
     private static final BigDecimal AMOUNT_FOR_1 = discount(AMOUNT, RATE, 1);
