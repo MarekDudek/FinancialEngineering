@@ -4,12 +4,9 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
-import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
+import static interretis.financial_engineering.CashFlows.lendAtRatePerPeriod;
 import static interretis.financial_engineering.Interest.discount;
-import static java.math.BigDecimal.ZERO;
-import static java.util.Collections.nCopies;
 
 @AllArgsConstructor
 final class ZeroCouponBond {
@@ -26,8 +23,6 @@ final class ZeroCouponBond {
 
     Iterator<BigDecimal> cashFlow()
     {
-        final List<BigDecimal> flows = newArrayList(nCopies(maturityInYears * paidPerYear + 1, ZERO));
-
-        return null;
+        return lendAtRatePerPeriod(price(), yield, maturityInYears);
     }
 }

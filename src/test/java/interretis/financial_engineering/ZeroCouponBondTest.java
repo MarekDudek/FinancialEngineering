@@ -21,7 +21,7 @@ public final class ZeroCouponBondTest {
         assertThat(b.price(), is(closeTo(amount(66.67), CENT)));
     }
 
-    @Test(enabled = false)
+    @Test
     public void cash_flow_of_simple_bond_for_one_year()
     {
         // given
