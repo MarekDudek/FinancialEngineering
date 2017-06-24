@@ -72,6 +72,10 @@ public final class NumericUtilities {
         return factor1.multiply(number(factor2));
     }
 
+    public static BigDecimal pow(final BigDecimal n, final int exp) {
+        return number(Math.pow(n.doubleValue(), exp));
+    }
+
     public static BigDecimal exp(final BigDecimal e) {
         return number(Math.exp(e.doubleValue()));
     }

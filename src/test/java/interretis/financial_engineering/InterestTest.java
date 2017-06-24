@@ -13,16 +13,17 @@ import static org.hamcrest.Matchers.is;
 public final class InterestTest {
 
     @Test
-    public void compounding_and_discounting() {
+    public void compounding_and_discounting()
+    {
         // given
         final BigDecimal r = percent(5);
         final int t = 3;
-        final BigDecimal amount = amount(100);
+        final BigDecimal a = amount(100);
         // when
-        final BigDecimal compounded = compound(amount, r, t);
+        final BigDecimal compounded = compound(a, r, t);
         final BigDecimal discounted = discount(compounded, r, t);
         // then
-        assertThat(discounted, is(closeTo(amount, EPSILON)));
+        assertThat(discounted, is(closeTo(a, EPSILON)));
     }
 
     @Test

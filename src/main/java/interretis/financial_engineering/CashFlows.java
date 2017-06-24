@@ -73,10 +73,10 @@ public enum CashFlows {
 
     public static BigDecimal presentValue(final Iterator<BigDecimal> cashFlow, final BigDecimal rate) {
 
-        final List<BigDecimal> c = newArrayList(cashFlow);
+        final List<BigDecimal> cf = newArrayList(cashFlow);
 
-        return range(0, c.size()).mapToObj(
-                t -> discount(c.get(t), rate, t)
+        return range(0, cf.size()).mapToObj(
+                t -> valueAtTime(cf.get(t), rate, t)
         ).reduce(
                 BigDecimal::add
         ).orElse(
@@ -86,7 +86,12 @@ public enum CashFlows {
 
     public static BigDecimal valueAtTime(final Iterator<BigDecimal> cashFlow, final BigDecimal rate, final int time)
     {
-        final List<BigDecimal> c = newArrayList(cashFlow);
-        return discount(c.get(time), rate, time);
+        final List<BigDecimal> cf = newArrayList(cashFlow);
+        return valueAtTime(cf.get(time), rate, time);
+    }
+
+    public static BigDecimal valueAtTime(final BigDecimal cash, final BigDecimal rate, final int time)
+    {
+        return discount(cash, rate, time);
     }
 }

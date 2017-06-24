@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
 import static java.math.BigDecimal.ONE;
 
-final class Interest {
+public final class Interest {
 
     /** a * (1 + n*r) */
     private static BigDecimal simple(final BigDecimal a, final BigDecimal r, final int n)
@@ -39,7 +39,7 @@ final class Interest {
     }
 
     /** a / (1 + r/n)^(y*n) */
-    static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n, final int y)
+    public static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n, final int y)
     {
         return divide(a, ONE.add(divide(r, n)).pow(y * n));
     }
