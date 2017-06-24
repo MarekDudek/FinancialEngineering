@@ -24,6 +24,7 @@ public final class PricingASimpleBondTest {
     private static final BigDecimal AMOUNT_FOR_1 = discount(AMOUNT, RATE, 1);
 
     @Test
+    @Deprecated
     public void buy_simple_bond_for_borrowed() {
         // given
         final Contract c = new Contract(new CashFlow(asList(PV.negate(), AMOUNT)));
@@ -76,7 +77,7 @@ public final class PricingASimpleBondTest {
         final Iterator<BigDecimal> bond = lendAtRatePerPeriod(pv, percent(5), 1);
         final Iterator<BigDecimal> cash = borrowAtRatePerPeriod(pv, percent(5), 1);
         // when
-        final Iterator<BigDecimal> c = portfolio(bond, cash);
+        final Iterator<BigDecimal> c = combine(bond, cash);
         // then
         assertThat(c.next(), is(closeTo(ZERO, CENT)));
         assertThat(c.next(), is(closeTo(ZERO, CENT)));
@@ -84,6 +85,7 @@ public final class PricingASimpleBondTest {
     }
 
     @Test
+    @Deprecated
     public void sell_contract_and_lend_cash() {
         // given
         final Contract sold = new Contract(new CashFlow(asList(PV, AMOUNT.negate())));
@@ -95,5 +97,48 @@ public final class PricingASimpleBondTest {
         // then
         for (final BigDecimal amount : portfolio.getCashFlow().amounts())
             assertThat(amount, is(closeTo(ZERO, EPSILON)));
+    }
+
+    @Test
+    public void cashflow_of_sold_bond()
+    {
+        // given
+        final BigDecimal pv = discount(amount(70), percent(5), 1);
+        // when
+        final Iterator<BigDecimal> sold = negate(lendAtRatePerPeriod(pv, percent(5), 1));
+        // then
+        assertThat(sold.next(), is(closeTo(amount(66.67), CENT)));
+        assertThat(sold.next(), is(closeTo(amount(-70), CENT)));
+        assertFalse(sold.hasNext());
+    }
+
+    @Test
+    public void cashflow_of_lent_cash()
+    {
+        // given
+        final BigDecimal pv = discount(amount(70), percent(5), 1);
+        // when
+        // when
+        final Iterator<BigDecimal> loan = negate(borrowAtRatePerPeriod(pv, percent(5), 1));
+        // then
+        assertThat(loan.next(), is(closeTo(amount(-66.67), CENT)));
+        assertThat(loan.next(), is(closeTo(amount(70), CENT)));
+        assertFalse(loan.hasNext());
+    }
+
+    @Test
+    public void cashflow_of_bond_sold_and_loan()
+    {
+        // given
+        final BigDecimal pv = discount(amount(70), percent(5), 1);
+        // when
+        final Iterator<BigDecimal> sold = negate(lendAtRatePerPeriod(pv, percent(5), 1));
+        final Iterator<BigDecimal> loan = negate(borrowAtRatePerPeriod(pv, percent(5), 1));
+        // when
+        final Iterator<BigDecimal> c = combine(sold, loan);
+        // then
+        assertThat(c.next(), is(closeTo(ZERO, CENT)));
+        assertThat(c.next(), is(closeTo(ZERO, CENT)));
+        assertFalse(c.hasNext());
     }
 }

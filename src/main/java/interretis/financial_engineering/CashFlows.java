@@ -6,8 +6,11 @@ import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static interretis.financial_engineering.Interest.compound;
+import static interretis.financial_engineering.Interest.discount;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 import static java.util.stream.Stream.of;
 
 public enum CashFlows {
@@ -29,7 +32,6 @@ public enum CashFlows {
 
     public static Iterator<BigDecimal> lendAtRatePerPeriod(final BigDecimal amount, final BigDecimal rate, final int maturity)
     {
-
         final List<BigDecimal> flows = newArrayList(nCopies(maturity + 1, ZERO));
 
         final BigDecimal loan = amount.negate();
@@ -42,21 +44,43 @@ public enum CashFlows {
     }
 
     @SafeVarargs
-    public static Iterator<BigDecimal> portfolio(final Iterator<BigDecimal>... cashFlows)
+    public static Iterator<BigDecimal> combine(final Iterator<BigDecimal>... cashFlows)
     {
-        final List<BigDecimal> cashFlow = newArrayList();
+        final List<BigDecimal> c = newArrayList();
 
-        while (of(cashFlows).anyMatch(Iterator::hasNext)) {
-            final BigDecimal next = of(cashFlows).filter(
-                    Iterator::hasNext
-            ).map(Iterator::next).reduce(
-                    BigDecimal::add
-            ).orElse(
-                    ZERO
+        while (of(cashFlows).anyMatch(Iterator::hasNext))
+            c.add(
+                    of(cashFlows).filter(
+                            Iterator::hasNext
+                    ).map(
+                            Iterator::next
+                    ).reduce(
+                            BigDecimal::add
+                    ).orElse(
+                            ZERO
+                    )
             );
-            cashFlow.add(next);
-        }
 
-        return cashFlow.iterator();
+        return c.iterator();
+    }
+
+    public static Iterator<BigDecimal> negate(final Iterator<BigDecimal> cashFlow)
+    {
+        return newArrayList(cashFlow).stream().map(
+                BigDecimal::negate
+        ).collect(toList()).iterator();
+    }
+
+    public static BigDecimal presentValue(final Iterator<BigDecimal> cashFlow, final BigDecimal rate) {
+
+        final List<BigDecimal> c = newArrayList(cashFlow);
+
+        return range(0, c.size()).mapToObj(
+                t -> discount(c.get(t), rate, t)
+        ).reduce(
+                BigDecimal::add
+        ).orElse(
+                ZERO
+        );
     }
 }
