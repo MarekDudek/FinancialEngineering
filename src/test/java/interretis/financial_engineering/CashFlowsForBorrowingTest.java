@@ -15,22 +15,6 @@ import static org.testng.Assert.assertFalse;
 
 public final class CashFlowsForBorrowingTest {
 
-    private static final BigDecimal RATE = percent(5);
-    private static final BigDecimal AMOUNT = amount(100);
-
-    @Test
-    @Deprecated
-    public void borrowing_up_to_time_1() {
-        // given
-        final int maturity = 1;
-        final BigDecimal borrowed = discount(AMOUNT, RATE, maturity);
-        // when
-        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
-        // then
-        assertThat(cashFlow.atTime(0), is(equalTo(borrowed)));
-        assertThat(cashFlow.atTime(maturity), is(closeTo(AMOUNT.negate(), ONE_PERCENT)));
-    }
-
     @Test
     public void borrowing_for_one_period()
     {
@@ -55,20 +39,6 @@ public final class CashFlowsForBorrowingTest {
         assertThat(c.next(), is(closeTo(amount(95.24), CENT)));
         assertThat(c.next(), is(closeTo(amount(-100), CENT)));
         assertFalse(c.hasNext());
-    }
-
-    @Test
-    @Deprecated
-    public void borrowing_up_to_time_2() {
-        // given
-        final int maturity = 2;
-        final BigDecimal borrowed = discount(AMOUNT, RATE, maturity);
-        // when
-        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
-        // then
-        assertThat(cashFlow.atTime(0), is(equalTo(borrowed)));
-        assertThat(cashFlow.atTime(1), is(equalTo(ZERO)));
-        assertThat(cashFlow.atTime(maturity), is(closeTo(AMOUNT.negate(), ONE_PERCENT)));
     }
 
     @Test
@@ -97,21 +67,6 @@ public final class CashFlowsForBorrowingTest {
         assertThat(c.next(), is(equalTo(ZERO)));
         assertThat(c.next(), is(closeTo(amount(-100), CENT)));
         assertFalse(c.hasNext());
-    }
-
-    @Test
-    @Deprecated
-    public void borrowing_up_to_time_3() {
-        // given
-        final int maturity = 3;
-        final BigDecimal borrowed = discount(AMOUNT, RATE, maturity);
-        // when
-        final CashFlow cashFlow = new CashBorrowContract(borrowed, maturity, RATE).getCashFlow();
-        // then
-        assertThat(cashFlow.atTime(0), is(equalTo(borrowed)));
-        assertThat(cashFlow.atTime(1), is(equalTo(ZERO)));
-        assertThat(cashFlow.atTime(2), is(equalTo(ZERO)));
-        assertThat(cashFlow.atTime(maturity), is(closeTo(AMOUNT.negate(), ONE_PERCENT)));
     }
 
     @Test

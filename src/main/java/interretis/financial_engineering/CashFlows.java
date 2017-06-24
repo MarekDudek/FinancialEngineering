@@ -83,4 +83,10 @@ public enum CashFlows {
                 ZERO
         );
     }
+
+    public static BigDecimal valueAtTime(final Iterator<BigDecimal> cashFlow, final BigDecimal rate, final int time)
+    {
+        final List<BigDecimal> c = newArrayList(cashFlow);
+        return discount(c.get(time), rate, time);
+    }
 }
