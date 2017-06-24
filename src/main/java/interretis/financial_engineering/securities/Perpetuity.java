@@ -7,12 +7,12 @@ import java.math.BigDecimal;
 import static interretis.financial_engineering.utilities.NumericUtilities.divide;
 
 @AllArgsConstructor
-public final class Perpetuity {
+final class Perpetuity {
 
     private final BigDecimal payment;
     private final BigDecimal rate;
 
-    public BigDecimal price()
+    BigDecimal price()
     {
         return divide(payment, rate);
     }
