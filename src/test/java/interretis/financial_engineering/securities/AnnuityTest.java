@@ -3,7 +3,7 @@ package interretis.financial_engineering.securities;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Iterator;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static interretis.financial_engineering.CashFlows.presentValue;
@@ -31,10 +31,9 @@ public final class AnnuityTest {
         final BigDecimal a = amount(10);
         // when
         final Annuity annuity = new Annuity(a, percent(5), 5);
-        final List<BigDecimal> cf = newArrayList(annuity.cashFlow());
+        final Iterator<BigDecimal> cf = annuity.cashFlow();
         // then
-        assertThat(cf, contains(ZERO, a, a, a, a, a));
-        assertThat(cf, hasSize(6));
+        assertThat(newArrayList(cf), contains(ZERO, a, a, a, a, a));
     }
 
     @Test

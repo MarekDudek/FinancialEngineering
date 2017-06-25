@@ -7,9 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static interretis.financial_engineering.CashFlows.combine;
-import static interretis.financial_engineering.CashFlows.presentValue;
-import static interretis.financial_engineering.CashFlows.valueAtTime;
+import static interretis.financial_engineering.CashFlows.*;
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;

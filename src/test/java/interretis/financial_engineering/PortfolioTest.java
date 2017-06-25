@@ -14,9 +14,7 @@ import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertFalse;
+import static org.hamcrest.Matchers.*;
 
 public final class PortfolioTest {
 
@@ -35,6 +33,7 @@ public final class PortfolioTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void cashflow_of_bought_contract()
     {
         // given
@@ -47,15 +46,17 @@ public final class PortfolioTest {
         final Iterator<BigDecimal> contract = as.iterator();
         final Iterator<BigDecimal> c = combine(contract, payment);
         // then
-        assertThat(c.next(), is(closeTo(amount(-35.46), CENT)));
-        assertThat(c.next(), is(closeTo(a, CENT)));
-        assertThat(c.next(), is(closeTo(a, CENT)));
-        assertThat(c.next(), is(closeTo(a, CENT)));
-        assertThat(c.next(), is(closeTo(a, CENT)));
-        assertFalse(c.hasNext());
+        assertThat(newArrayList(c), contains(
+                closeTo(amount(-35.46), CENT),
+                equalTo(a),
+                equalTo(a),
+                equalTo(a),
+                equalTo(a)
+        ));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void cashflow_of_loan_for_one_period()
     {
         // given
@@ -64,12 +65,14 @@ public final class PortfolioTest {
         // when
         final Iterator<BigDecimal> l = borrowAtRatePerPeriod(discount(a, r, 1), r, 1);
         // then
-        assertThat(l.next(), is(closeTo(amount(9.52), CENT)));
-        assertThat(l.next(), is(closeTo(amount(-10), CENT)));
-        assertFalse(l.hasNext());
+        assertThat(newArrayList(l), contains(
+                closeTo(amount(9.52), CENT),
+                closeTo(amount(-10), CENT)
+        ));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void cashflow_of_loan_for_two_periods()
     {
         // given
@@ -78,13 +81,15 @@ public final class PortfolioTest {
         // when
         final Iterator<BigDecimal> l = borrowAtRatePerPeriod(discount(a, r, 2), r, 2);
         // then
-        assertThat(l.next(), is(closeTo(amount(9.07), CENT)));
-        assertThat(l.next(), is(closeTo(ZERO, CENT)));
-        assertThat(l.next(), is(closeTo(amount(-10), CENT)));
-        assertFalse(l.hasNext());
+        assertThat(newArrayList(l), contains(
+                closeTo(amount(9.07), CENT),
+                equalTo(ZERO),
+                closeTo(amount(-10), CENT)
+        ));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void cashflow_of_loan_for_three_periods()
     {
         // given
@@ -93,14 +98,16 @@ public final class PortfolioTest {
         // when
         final Iterator<BigDecimal> l = borrowAtRatePerPeriod(discount(a, r, 3), r, 3);
         // then
-        assertThat(l.next(), is(closeTo(amount(8.64), CENT)));
-        assertThat(l.next(), is(closeTo(ZERO, CENT)));
-        assertThat(l.next(), is(closeTo(ZERO, CENT)));
-        assertThat(l.next(), is(closeTo(amount(-10), CENT)));
-        assertFalse(l.hasNext());
+        assertThat(newArrayList(l), contains(
+                closeTo(amount(8.64), CENT),
+                equalTo(ZERO),
+                equalTo(ZERO),
+                closeTo(amount(-10), CENT)
+        ));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void cashflow_of_loan_for_four_periods()
     {
         // given
@@ -109,12 +116,13 @@ public final class PortfolioTest {
         // when
         final Iterator<BigDecimal> l = borrowAtRatePerPeriod(discount(a, r, 4), r, 4);
         // then
-        assertThat(l.next(), is(closeTo(amount(8.23), CENT)));
-        assertThat(l.next(), is(closeTo(ZERO, CENT)));
-        assertThat(l.next(), is(closeTo(ZERO, CENT)));
-        assertThat(l.next(), is(closeTo(ZERO, CENT)));
-        assertThat(l.next(), is(closeTo(amount(-10), CENT)));
-        assertFalse(l.hasNext());
+        assertThat(newArrayList(l), contains(
+                closeTo(amount(8.23), CENT),
+                equalTo(ZERO),
+                equalTo(ZERO),
+                equalTo(ZERO),
+                closeTo(amount(-10), CENT)
+        ));
     }
 
     @Test

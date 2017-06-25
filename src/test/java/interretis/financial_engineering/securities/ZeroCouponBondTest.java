@@ -1,6 +1,5 @@
 package interretis.financial_engineering.securities;
 
-import interretis.financial_engineering.securities.ZeroCouponBond;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
