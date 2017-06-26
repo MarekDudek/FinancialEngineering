@@ -6,7 +6,7 @@ import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static interretis.financial_engineering.Interest.compound;
-import static interretis.financial_engineering.Interest.discount;
+import static interretis.financial_engineering.utilities.FunctionalUtilities.sum;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
 import static java.util.stream.Collectors.toList;
@@ -71,17 +71,18 @@ public enum CashFlows {
         ).collect(toList()).iterator();
     }
 
-    public static BigDecimal presentValue(final Iterator<BigDecimal> cashFlow, final BigDecimal rate) {
-
+    public static Iterator<BigDecimal> discount(final Iterator<BigDecimal> cashFlow, final BigDecimal rate)
+    {
         final List<BigDecimal> cf = newArrayList(cashFlow);
-
         return range(0, cf.size()).mapToObj(
                 t -> valueAtTime(cf.get(t), rate, t)
-        ).reduce(
-                BigDecimal::add
-        ).orElse(
-                ZERO
-        );
+        ).collect(toList()).iterator();
+    }
+
+    public static BigDecimal presentValue(final Iterator<BigDecimal> cashFlow, final BigDecimal rate)
+    {
+        final Iterator<BigDecimal> discounted = discount(cashFlow, rate);
+        return sum(newArrayList(discounted));
     }
 
     public static BigDecimal valueAtTime(final Iterator<BigDecimal> cashFlow, final BigDecimal rate, final int time)
@@ -92,6 +93,6 @@ public enum CashFlows {
 
     public static BigDecimal valueAtTime(final BigDecimal cash, final BigDecimal rate, final int time)
     {
-        return discount(cash, rate, time);
+        return Interest.discount(cash, rate, time);
     }
 }

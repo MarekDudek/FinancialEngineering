@@ -11,6 +11,7 @@ import static interretis.financial_engineering.Interest.discount;
 import static interretis.financial_engineering.utilities.NumericUtilities.divide;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.nCopies;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.rangeClosed;
 
 @AllArgsConstructor
@@ -38,17 +39,24 @@ final class Bond {
         return c.iterator();
     }
 
+    BigDecimal discountedFaceValue(final BigDecimal lambda)
+    {
+        return discount(faceValue, lambda, paymentsPerYear, maturity);
+    }
+
     BigDecimal priceForYield(final BigDecimal lambda)
     {
-        final BigDecimal c = rangeClosed(1, paymentsPerYear * maturity).mapToObj(
-                k -> discount(payment(), lambda, paymentsPerYear, maturity)
-        ).reduce(
+        final List<BigDecimal> coupons = rangeClosed(1, paymentsPerYear * maturity).mapToObj(
+                k -> discount(payment(), divide(lambda, paymentsPerYear), k)
+        ).collect(toList());
+
+        final BigDecimal c = coupons.stream().reduce(
                 BigDecimal::add
         ).orElse(
                 ZERO
         );
 
-        final BigDecimal f = discount(faceValue, lambda, paymentsPerYear, maturity);
+        final BigDecimal f = discountedFaceValue(lambda);
 
         return c.add(f);
     }

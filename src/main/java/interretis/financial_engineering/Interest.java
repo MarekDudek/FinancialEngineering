@@ -33,7 +33,7 @@ public final class Interest {
     }
 
     /** a / (1 + r)^n */
-    static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n)
+    public static BigDecimal discount(final BigDecimal a, final BigDecimal r, final int n)
     {
         return divide(a, ONE.add(r).pow(n));
     }

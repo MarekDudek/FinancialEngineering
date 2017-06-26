@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Iterator;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static interretis.financial_engineering.CashFlows.discount;
 import static interretis.financial_engineering.CashFlows.presentValue;
 import static interretis.financial_engineering.utilities.NumericUtilities.*;
 import static java.math.BigDecimal.ZERO;
@@ -65,8 +66,16 @@ public final class BondTest {
         // given
         final Bond b = new Bond(amount(1_000), percent(5), 10, 2, amount(900));
         // when
-        final BigDecimal price = b.priceForYield(percent(3.18));
-        System.err.println(price);
-        System.err.println(presentValue(b.cashFlow(), percent(3.18)));
+        final BigDecimal yieldToMaturity = percent(3.18);
+
+        System.err.println("cash flow: " + newArrayList(b.cashFlow()));
+        System.err.println("discounted cashflow: " + newArrayList(discount(b.cashFlow(), yieldToMaturity)));
+        System.err.println("cashflow length: " + newArrayList(b.cashFlow()).size());
+
+        System.err.println("discounted face value: " + b.discountedFaceValue(yieldToMaturity));
+
+        System.err.println("PV: " + presentValue(b.cashFlow(), yieldToMaturity));
+        final BigDecimal price = b.priceForYield(yieldToMaturity);
+        System.err.println("price: " + price);
     }
 }
